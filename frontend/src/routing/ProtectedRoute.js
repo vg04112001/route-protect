@@ -1,7 +1,7 @@
 // ProtectedRoute.js
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const ProtectedRoute = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -13,17 +13,6 @@ const ProtectedRoute = () => {
       navigate("/login");
     }
   }, [navigate, userInfo]);
-
-  // if (!userInfo) {
-  //   return (
-  //     <div className="unauthorized">
-  //       <h1>Unauthorized Access</h1>
-  //       <span>
-  //         <NavLink to="/login">Login</NavLink> to gain access
-  //       </span>
-  //     </div>
-  //   );
-  // }
 
   // returns child route elements
   return <Outlet />;
