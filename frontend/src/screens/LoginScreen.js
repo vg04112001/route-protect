@@ -1,15 +1,42 @@
 // LoginScreen.js
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogin } from "../features/auth/authActions";
 import Error from "../components/Error";
+import FormInput from "../components/FormInput";
+import { IoEye, IoEyeOff } from "react-icons/io5";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
+const schema = yup
+  .object({
+    email: yup
+      .string()
+      .required()
+      .matches(
+        "[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$",
+        "please enter valid email format"
+      ),
+    password: yup
+      .string()
+      .required()
+      .min(3, "must be at least 3 characters long"),
+  })
+  .required();
 
 const LoginScreen = () => {
+  const [showPassword, setShowPassword] = useState(false);
   const { loading, userInfo, error } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
   const navigate = useNavigate();
 
   // redirect authenticated user to profile screen
@@ -26,24 +53,33 @@ const LoginScreen = () => {
   return (
     <form onSubmit={handleSubmit(submitForm)}>
       {error && <Error>{error}</Error>}
-      <div className="form-group">
-        <label htmlFor="email">Email</label>
-        <input
-          type="email"
-          className="form-input"
-          {...register("email")}
-          required
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          className="form-input"
-          {...register("password")}
-          required
-        />
-      </div>
+      <FormInput
+        label="Email"
+        name="email"
+        register={register}
+        errors={errors}
+        type={"email"}
+      />
+      <FormInput
+        label="Password"
+        name="password"
+        register={register}
+        errors={errors}
+        type={showPassword ? "text" : "password"}
+        suffixIcon={
+          showPassword ? (
+            <IoEye
+              onClick={() => setShowPassword((s) => !s)}
+              style={{ position: "absolute", right: "15px", top: "30px" }}
+            />
+          ) : (
+            <IoEyeOff
+              onClick={() => setShowPassword((s) => !s)}
+              style={{ position: "absolute", right: "15px", top: "30px" }}
+            />
+          )
+        }
+      />
       <button type="submit" className="button" disabled={loading}>
         {loading ? <div>Spinner</div> : "Login"}
       </button>
