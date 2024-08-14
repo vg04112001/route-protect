@@ -1,5 +1,5 @@
 // RegisterScreen.js
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -7,6 +7,8 @@ import Error from "../components/Error";
 import { registerUser } from "../features/auth/authActions";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { IoEye, IoEyeOff } from "react-icons/io5";
+import FormInput from "../components/FormInput";
 
 const schema = yup
   .object({
@@ -35,6 +37,8 @@ const schema = yup
   .required();
 
 const RegisterScreen = () => {
+  const [showPassword, setShowPassword] = useState(false);
+
   const { loading, userInfo, error, success } = useSelector(
     (state) => state.auth
   );
@@ -70,35 +74,51 @@ const RegisterScreen = () => {
   return (
     <form onSubmit={handleSubmit(submitForm)}>
       {error && <Error>{error}</Error>}
-      <div className="form-group">
-        <label htmlFor="firstName">First Name</label>
-        <input type="text" className="form-input" {...register("firstName")} />
-        <p>{errors.firstName?.message}</p>
-      </div>
-      <div className="form-group">
-        <label htmlFor="email">Email</label>
-        <input type="email" className="form-input" {...register("email")} />
-        <p>{errors.email?.message}</p>
-      </div>
-      <div className="form-group">
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          className="form-input"
-          {...register("password")}
-        />
-        <p>{errors.password?.message}</p>
-      </div>
-      <div className="form-group">
-        <label htmlFor="cpassword">Confirm Password</label>
-        <input
-          type="password"
-          className="form-input"
-          {...register("confirmPassword")}
-          required
-        />
-      </div>
-      <button type="submit" className="button" disabled={loading}>
+      <FormInput
+        label="First Name"
+        name="firstName"
+        register={register}
+        errors={errors}
+      />
+      <FormInput
+        label="Email"
+        name="email"
+        register={register}
+        errors={errors}
+        type={"email"}
+      />
+      <FormInput
+        label="Password"
+        name="password"
+        register={register}
+        errors={errors}
+        type={showPassword ? "text" : "password"}
+        suffixIcon={
+          showPassword ? (
+            <IoEye
+              onClick={() => setShowPassword((s) => !s)}
+              style={{ position: "absolute", right: "15px", top: "30px" }}
+            />
+          ) : (
+            <IoEyeOff
+              onClick={() => setShowPassword((s) => !s)}
+              style={{ position: "absolute", right: "15px", top: "30px" }}
+            />
+          )
+        }
+      />
+      <FormInput
+        label="Confirm Password"
+        name="confirmPassword"
+        register={register}
+        errors={errors}
+        type={"password"}
+      />
+      <button
+        type="submit"
+        className={`button ${showPassword ? "disabled" : ""}`}
+        disabled={loading}
+      >
         {loading ? <div>Spinner</div> : "Register"}
       </button>
     </form>

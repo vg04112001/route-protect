@@ -2,7 +2,8 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-const backendURL = "https://route-protect.onrender.com";
+const backendURL =
+  "https://route-protect.onrender.com" || "http://localhost:5000";
 
 export const registerUser = createAsyncThunk(
   "auth/register",

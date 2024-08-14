@@ -20,6 +20,7 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/user-profile" element={<ProfileScreen />} />
           </Route>
+          <Route path="*" element={<div>No route path found</div>} />
         </Routes>
       </main>
     </Router>

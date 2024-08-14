@@ -37,9 +37,15 @@ const Header = () => {
       </div>
       <nav className="container navigation">
         <NavLink to="/">Home</NavLink>
-        <NavLink to="/login">Login</NavLink>
-        <NavLink to="/register">Register</NavLink>
-        <NavLink to="/user-profile">Profile</NavLink>
+        {userInfo ? (
+          <NavLink to="/user-profile">Profile</NavLink>
+        ) : (
+          <>
+            <NavLink to="/login">Login</NavLink>
+            <NavLink to="/register">Register</NavLink>
+          </>
+        )}
+        {/* {userInfo && <NavLink to="/user-profile">Profile</NavLink>} */}
       </nav>
     </header>
   );
