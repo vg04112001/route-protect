@@ -7,6 +7,7 @@ import colors from "colors";
 import userRoutes from "./routes/userRoutes.js";
 import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
 import mongoose from "mongoose";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
@@ -17,8 +18,16 @@ mongoose.connect(
 
 const app = express();
 
-app.use(cors());
+// app.use(cookieParser());
 
+// CORS options
+const corsOptions = {
+  origin: "http://localhost:3000", // Replace this with your frontend URL
+  credentials: true, // Allow credentials (cookies)
+};
+
+// Apply CORS middleware
+app.use(cors(corsOptions));
 // Body parser
 app.use(express.json());
 

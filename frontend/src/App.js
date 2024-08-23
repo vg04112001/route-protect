@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+} from "react-router-dom";
 import Header from "./components/Header";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
@@ -9,7 +14,7 @@ import ProtectedRoute from "./routing/ProtectedRoute";
 
 function App() {
   return (
-    <Router>
+    <>
       <Header />
       <main className="container content">
         <Routes>
@@ -23,7 +28,7 @@ function App() {
           <Route path="*" element={<div>No route path found</div>} />
         </Routes>
       </main>
-    </Router>
+    </>
   );
 }
 
