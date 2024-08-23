@@ -36,6 +36,10 @@ const loginUser = asyncHandler(async (req, res) => {
 
   // return user obj if their password matches
   if (user && (await user.matchPassword(password))) {
+    let options = {
+      maxAge: 1000 * 60 * 2, // would expire after 15 minutes
+    };
+    res.cookie("authToken", generateToken(user._id), options);
     res.json({
       _id: user._id,
       firstName: user.firstName,

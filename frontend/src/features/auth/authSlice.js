@@ -1,6 +1,7 @@
 // authSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 import { registerUser, userLogin } from "./authActions";
+import Cookies from "js-cookie";
 
 // initialize userToken from local storage
 const userToken = localStorage.getItem("userToken")
@@ -20,7 +21,9 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     logout: (state) => {
+      Cookies.remove("authToken", { path: "/" }); // remove cookie
       localStorage.removeItem("userToken"); // deletes token from storage
+      localStorage.removeItem("userDetails"); // remove user details from storage
       state.loading = false;
       state.userInfo = null;
       state.userToken = null;

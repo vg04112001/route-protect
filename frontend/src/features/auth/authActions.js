@@ -2,8 +2,8 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-const backendURL =
-  "https://route-protect.onrender.com" || "http://localhost:5000";
+// "https://route-protect.onrender.com"
+const backendURL = "http://localhost:5000";
 
 export const registerUser = createAsyncThunk(
   "auth/register",
@@ -39,13 +39,16 @@ export const userLogin = createAsyncThunk(
         headers: {
           "Content-Type": "application/json",
         },
+        withCredentials: true,
       };
       const { data } = await axios.post(
         `${backendURL}/api/user/login`,
         { email, password },
         config
       );
+      // console.log("Response: ", data);
       // store user's token in local storage
+      // localStorage.setItem("userToken", JSON.stringify(data));
       localStorage.setItem("userToken", data.userToken);
       return data;
     } catch (error) {
@@ -79,6 +82,8 @@ export const getUserDetails = createAsyncThunk(
         `${backendURL}/api/user/profile`,
         config
       );
+
+      localStorage.setItem("userDetails", JSON.stringify(data));
 
       return data;
     } catch (error) {
