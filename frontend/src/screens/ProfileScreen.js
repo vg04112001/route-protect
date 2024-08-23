@@ -11,7 +11,9 @@ const ProfileScreen = () => {
     <>
       {userToken && (
         <div>
-          <figure>{user?.firstName.charAt(0).toUpperCase()}</figure>
+          <figure>
+            {(userInfo ? userInfo : user)?.firstName.charAt(0).toUpperCase()}
+          </figure>
           <span>
             Welcome <strong>{user?.firstName}!</strong> You can view this page
             because you're logged in

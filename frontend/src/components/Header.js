@@ -34,8 +34,8 @@ const Header = () => {
     <header>
       <div className="header-status">
         <span>
-          {userDetails
-            ? `Logged in as ${userDetails.email}`
+          {userInfo || userDetails
+            ? `Logged in as ${userInfo ? userInfo.email : userDetails.email}`
             : "You're not logged in"}
         </span>
         <div className="cta">
