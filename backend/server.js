@@ -24,8 +24,15 @@ const app = express();
 const corsOptions = {
   origin: "https://route-protect.netlify.app", // Replace this with your frontend URL
   credentials: true, // Allow credentials (cookies)
+  preflightContinue: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
 };
-
+// const corsOptions = {
+//   credentials: true,
+//   preflightContinue: true,
+//   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+//   origin: true,
+// };
 // Apply CORS middleware
 app.use(cors(corsOptions));
 // Body parser
