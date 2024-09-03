@@ -13,9 +13,10 @@ const ProtectedRoute = () => {
   useEffect(() => {
     sessionId = Cookies.get("authToken");
     if (!sessionId) {
+      console.log("dvkdsvjd");
       navigate("/login");
     }
-  }, [navigate, userInfo, sessionId]);
+  }, [sessionId]);
 
   // returns child route elements
   return <Outlet />;

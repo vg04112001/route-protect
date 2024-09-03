@@ -57,8 +57,8 @@ const RegisterScreen = () => {
     // redirect user to login page if registration was successful
     if (success) navigate("/login");
     // redirect authenticated user to profile screen
-    if (userInfo) navigate("/user-profile");
-  }, [navigate, userInfo, success]);
+    // if (userInfo) navigate("/user-profile");
+  }, [navigate, success]);
 
   const submitForm = (data) => {
     // check if passwords match
