@@ -9,6 +9,7 @@ import FormInput from "../components/FormInput";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import Cookies from "js-cookie";
 
 const schema = yup
   .object({
@@ -28,7 +29,9 @@ const schema = yup
 
 const LoginScreen = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const { loading, userInfo, error } = useSelector((state) => state.auth);
+  const { loading, userInfo, error, userToken } = useSelector(
+    (state) => state.auth
+  );
   const dispatch = useDispatch();
   const {
     register,
@@ -40,14 +43,21 @@ const LoginScreen = () => {
   const navigate = useNavigate();
 
   // redirect authenticated user to profile screen
+  let sessionId;
   useEffect(() => {
-    if (userInfo) {
+    sessionId = Cookies.get("authToken");
+    if (userToken && sessionId) {
       navigate("/user-profile");
     }
-  }, [navigate, userInfo]);
+  }, [sessionId, userToken]);
 
   const submitForm = (data) => {
     dispatch(userLogin(data));
+    setTimeout(() => {
+      console.log("setTimeout works....");
+      localStorage.removeItem("userToken");
+      localStorage.removeItem("userDetails");
+    }, 110000);
   };
 
   return (
