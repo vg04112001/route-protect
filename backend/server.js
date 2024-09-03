@@ -22,7 +22,7 @@ const app = express();
 
 // CORS options
 const corsOptions = {
-  origin: "http://localhost:3000", // Replace this with your frontend URL
+  origin: "https://route-protect.netlify.app", // Replace this with your frontend URL
   credentials: true, // Allow credentials (cookies)
   preflightContinue: true,
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
