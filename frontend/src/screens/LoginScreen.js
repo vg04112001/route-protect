@@ -46,7 +46,7 @@ const LoginScreen = () => {
   let sessionId;
   useEffect(() => {
     sessionId = Cookies.get("authToken");
-    if (userToken && sessionId) {
+    if (userToken || sessionId) {
       navigate("/user-profile");
     }
   }, [sessionId, userToken]);
