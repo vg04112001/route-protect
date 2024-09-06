@@ -9,6 +9,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 import FormInput from "../components/FormInput";
+import Cookies from "js-cookie";
 
 const schema = yup
   .object({
@@ -38,6 +39,7 @@ const schema = yup
 
 const RegisterScreen = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const { loading, userInfo, error, success } = useSelector(
     (state) => state.auth
@@ -53,12 +55,14 @@ const RegisterScreen = () => {
 
   const navigate = useNavigate();
 
+  let sessionId;
   useEffect(() => {
+    sessionId = Cookies.get("authToken");
     // redirect user to login page if registration was successful
     if (success) navigate("/login");
     // redirect authenticated user to profile screen
-    // if (userInfo) navigate("/user-profile");
-  }, [navigate, success]);
+    if (userInfo || sessionId) navigate("/user-profile");
+  }, [navigate, success, sessionId]);
 
   const submitForm = (data) => {
     // check if passwords match
@@ -112,11 +116,26 @@ const RegisterScreen = () => {
         name="confirmPassword"
         register={register}
         errors={errors}
-        type={"password"}
+        type={showConfirmPassword ? "text" : "password"}
+        suffixIcon={
+          showConfirmPassword ? (
+            <IoEye
+              onClick={() => setShowConfirmPassword((s) => !s)}
+              style={{ position: "absolute", right: "15px", top: "30px" }}
+            />
+          ) : (
+            <IoEyeOff
+              onClick={() => setShowConfirmPassword((s) => !s)}
+              style={{ position: "absolute", right: "15px", top: "30px" }}
+            />
+          )
+        }
       />
       <button
         type="submit"
-        className={`button ${showPassword ? "disabled" : ""}`}
+        className={`button ${
+          showPassword || showConfirmPassword ? "disabled" : ""
+        }`}
         disabled={loading}
       >
         {loading ? <div>Spinner</div> : "Register"}

@@ -3,11 +3,9 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import colors from "colors";
-// import connectDB from "./config/db.js";
 import userRoutes from "./routes/userRoutes.js";
 import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
 import mongoose from "mongoose";
-import cookieParser from "cookie-parser";
 
 dotenv.config();
 
@@ -22,17 +20,12 @@ const app = express();
 
 // CORS options
 const corsOptions = {
-  origin: "https://route-protect.netlify.app", // Replace this with your frontend URL
+  origin: "https://route-protect.vercel.app/", // Replace this with your frontend URL
   credentials: true, // Allow credentials (cookies)
   preflightContinue: true,
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
 };
-// const corsOptions = {
-//   credentials: true,
-//   preflightContinue: true,
-//   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-//   origin: true,
-// };
+
 // Apply CORS middleware
 app.use(cors(corsOptions));
 // Body parser
