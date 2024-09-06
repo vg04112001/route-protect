@@ -21,7 +21,7 @@ const app = express();
 // CORS options
 const corsOptions = {
   origin: "https://route-protect.vercel.app", // Replace this with your frontend URL
-  credentials: true, // Allow credentials (cookies)
+  credentials: "include", // Allow credentials (cookies)
   preflightContinue: true,
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
 };
