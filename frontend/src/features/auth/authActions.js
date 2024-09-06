@@ -14,6 +14,7 @@ export const registerUser = createAsyncThunk(
         headers: {
           "Content-Type": "application/json",
         },
+        withCredentials: true,
       };
       await axios.post(
         `${backendURL}/api/user/register`,
