@@ -19,10 +19,21 @@ const app = express();
 // app.use(cookieParser());
 
 // CORS options
+const allowedOrigins = [
+  "https://route-protect.vercel.app",
+  "http://localhost:3000",
+  "*",
+];
+
 const corsOptions = {
-  origin: "*", // Ensure this is the correct URL for your frontend
-  credentials: true, // This must be true to allow credentials
-  preflightContinue: false, // Set to false to avoid preflight issues
+  origin: function (origin, callback) {
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
 };
 
