@@ -26,15 +26,10 @@ const allowedOrigins = [
 ];
 
 const corsOptions = {
-  origin: function (origin, callback) {
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true,
+  origin: "https://route-protect.vercel.app", // Must match frontend
+  credentials: true, // Allow credentials (cookies) to be sent
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  // allowedHeaders: ["Content-Type", "Authorization"], // Add any custom headers if necessary
 };
 
 // Apply CORS middleware
@@ -44,6 +39,11 @@ app.use(cors(corsOptions));
 app.options("*", cors(corsOptions));
 // Body parser
 app.use(express.json());
+
+// Check backend URL working
+app.get("/", (req, res) => {
+  res.send("Backend works....");
+});
 
 // API routes
 app.use("/api/user", userRoutes);
